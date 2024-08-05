@@ -1,0 +1,36 @@
+services:
+  reservations:
+    build: 
+      context: .
+      dockerfile: ./apps/reservations/Dockerfile
+      target: development
+    command: pnpm run start:dev reservations
+    env_file:
+      - ./apps/reservations/.env
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: pnpm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+  mongo:
+    image: mongo
+
+# docker compose是一个工具，用于定义和运行多容器的Docker应用程序，可以通过docker-compose.yaml文件定义多个容器，然后通过docker-compose up命令启动这些容器
+
+# volumes: 将本地目录挂载到容器中，这样在本地修改代码，容器中的代码也会同步更新，实现热更新，hot-reloading
+
+
+
